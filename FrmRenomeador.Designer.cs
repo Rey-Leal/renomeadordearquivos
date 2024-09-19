@@ -36,17 +36,20 @@
             lblDiretorio = new Label();
             lblArquivos = new Label();
             lblMascara = new Label();
-            txtMascara = new TextBox();
             btnRenomear = new Button();
+            cbxMascara = new ComboBox();
+            btnSair = new Button();
             SuspendLayout();
             // 
             // btnDiretorio
             // 
+            btnDiretorio.Image = (Image)resources.GetObject("btnDiretorio.Image");
+            btnDiretorio.ImageAlign = ContentAlignment.MiddleLeft;
             btnDiretorio.Location = new Point(559, 20);
             btnDiretorio.Name = "btnDiretorio";
-            btnDiretorio.Size = new Size(78, 24);
+            btnDiretorio.Size = new Size(108, 24);
             btnDiretorio.TabIndex = 0;
-            btnDiretorio.Text = "Buscar";
+            btnDiretorio.Text = "&Buscar";
             btnDiretorio.UseVisualStyleBackColor = true;
             btnDiretorio.Click += btnDiretorio_Click;
             // 
@@ -93,31 +96,45 @@
             lblMascara.TabIndex = 7;
             lblMascara.Text = "Máscara";
             // 
-            // txtMascara
-            // 
-            txtMascara.Location = new Point(15, 250);
-            txtMascara.Name = "txtMascara";
-            txtMascara.Size = new Size(538, 23);
-            txtMascara.TabIndex = 6;
-            // 
             // btnRenomear
             // 
-            btnRenomear.Location = new Point(560, 250);
+            btnRenomear.ImageAlign = ContentAlignment.MiddleLeft;
+            btnRenomear.Location = new Point(559, 62);
             btnRenomear.Name = "btnRenomear";
-            btnRenomear.Size = new Size(78, 24);
+            btnRenomear.Size = new Size(108, 24);
             btnRenomear.TabIndex = 8;
-            btnRenomear.Text = "Renomear";
+            btnRenomear.Text = "&Renomear";
             btnRenomear.UseVisualStyleBackColor = true;
             btnRenomear.Click += btnRenomear_Click;
+            // 
+            // cbxMascara
+            // 
+            cbxMascara.FormattingEnabled = true;
+            cbxMascara.Location = new Point(15, 250);
+            cbxMascara.Name = "cbxMascara";
+            cbxMascara.Size = new Size(538, 23);
+            cbxMascara.TabIndex = 9;
+            // 
+            // btnSair
+            // 
+            btnSair.ImageAlign = ContentAlignment.MiddleLeft;
+            btnSair.Location = new Point(559, 248);
+            btnSair.Name = "btnSair";
+            btnSair.Size = new Size(108, 24);
+            btnSair.TabIndex = 10;
+            btnSair.Text = "&Sair";
+            btnSair.UseVisualStyleBackColor = true;
+            btnSair.Click += btnSair_Click;
             // 
             // FrmRenomeador
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(649, 289);
+            ClientSize = new Size(676, 285);
+            Controls.Add(btnSair);
+            Controls.Add(cbxMascara);
             Controls.Add(btnRenomear);
             Controls.Add(lblMascara);
-            Controls.Add(txtMascara);
             Controls.Add(lblArquivos);
             Controls.Add(lblDiretorio);
             Controls.Add(lstArquivos);
@@ -143,7 +160,8 @@
         private Label lblDiretorio;
         private Label lblArquivos;
         private Label lblMascara;
-        private TextBox txtMascara;
         private Button btnRenomear;
+        private ComboBox cbxMascara;
+        private Button btnSair;
     }
 }

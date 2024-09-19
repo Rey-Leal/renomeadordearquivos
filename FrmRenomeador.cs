@@ -1,6 +1,6 @@
 using RenomeadorDeArquivos.Constantes;
-using RenomeadorDeArquivos.Enum;
-using System.Linq.Expressions;
+using RenomeadorDeArquivos.Enums;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace RenomeadorDeArquivos
 {
@@ -11,19 +11,28 @@ namespace RenomeadorDeArquivos
         private void FrmRenomeador_Load(object sender, EventArgs e)
         {
             LimparCampos();
+            CarregarMascaras();
         }
 
         private void LimparCampos()
         {
             lstArquivos.Items.Clear();
             btnRenomear.Enabled = false;
-            txtMascara.Enabled = false;
+            cbxMascara.Enabled = false;
         }
 
         private void AtivaMascara()
         {
             btnRenomear.Enabled = true;
-            txtMascara.Enabled = true;
+            cbxMascara.Enabled = true;
+        }
+
+        private void CarregarMascaras()
+        {
+            cbxMascara.Items.Clear();
+            cbxMascara.DataSource = Enum.GetValues(typeof(Mascara));
+            if (cbxMascara.Items.Count > 0)
+                cbxMascara.SelectedIndex = 0;
         }
 
         private void CarregarDados(string diretorio)
@@ -45,35 +54,42 @@ namespace RenomeadorDeArquivos
                 }
                 else
                 {
-                    MessageBox.Show("Nenhum arquivo encontrado!", Aplicacao.NomeCompleto);
+                    MessageBox.Show("Nenhum arquivo encontrado!", Aplicacao.NomeCompleto, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
             else
             {
-                MessageBox.Show("O diretório não existe!", Aplicacao.NomeCompleto);
+                MessageBox.Show("O diretório não existe!", Aplicacao.NomeCompleto, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
         private void RenomearArquivos(string diretorioCompleto, Mascara mascara)
         {
-            string arquivoOrigem = AplicarMascara(Path.GetFileName(diretorioCompleto), mascara);
-            string diretorioOrigem = Path.GetDirectoryName(diretorioCompleto);
-            string diretorioPai = Directory.GetParent(diretorioOrigem).ToString();
-            string diretorioSaida = Path.Combine(diretorioPai, String.Concat(Path.GetFileName(diretorioOrigem), "_RENOMEADO"));
-            string arquivoSaida = Path.Combine(diretorioSaida, arquivoOrigem);
+            try
+            {
+                string arquivoOrigem = GerarMascara(Path.GetFileName(diretorioCompleto), mascara);
+                string diretorioOrigem = Path.GetDirectoryName(diretorioCompleto);
+                string diretorioPai = Directory.GetParent(diretorioOrigem).ToString();
+                string diretorioSaida = Path.Combine(diretorioPai, String.Concat(Path.GetFileName(diretorioOrigem), "_RENOMEADO"));
+                string arquivoSaida = Path.Combine(diretorioSaida, arquivoOrigem);
 
-            if (!Directory.Exists(diretorioSaida))
-                Directory.CreateDirectory(diretorioSaida);
+                if (!Directory.Exists(diretorioSaida))
+                    Directory.CreateDirectory(diretorioSaida);
 
-            File.Copy(diretorioCompleto, arquivoSaida, true);
+                File.Copy(diretorioCompleto, arquivoSaida, true);
+            }
+            catch
+            {
+                throw new Exception();
+            }
         }
 
-        private string AplicarMascara(string arquivo, Mascara mascara)
+        private string GerarMascara(string arquivo, Mascara mascara)
         {
             string result = "";
             switch (mascara)
             {
-                case Mascara.Numerico:
+                case Mascara.Numerica:
                     string parteNumerica = new string(arquivo.Where(char.IsDigit).ToArray());
                     result = String.Concat("Edital", parteNumerica, ".PDF");
                     break;
@@ -96,9 +112,37 @@ namespace RenomeadorDeArquivos
 
         private void btnRenomear_Click(object sender, EventArgs e)
         {
-            foreach (var item in lstArquivos.Items)
+            try
             {
-                RenomearArquivos(item.ToString(), Mascara.Numerico);
+                var entrada = cbxMascara.SelectedItem.ToString();
+
+                if (Enum.TryParse<Mascara>(entrada, out var mascara))
+                {
+                    foreach (var item in lstArquivos.Items)
+                    {
+                        RenomearArquivos(item.ToString(), mascara);
+                    }
+                    MessageBox.Show("Arquivos renomeados com sucesso!", Aplicacao.NomeCompleto, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Erro na seleção da máscara de renomeação!",
+                        Aplicacao.NomeCompleto, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao renomear arquivos!\n{ex}", Aplicacao.NomeCompleto, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnSair_Click(object sender, EventArgs e)
+        {
+            var resposta = MessageBox.Show("Deseja realmente sair da aplicação?", Aplicacao.NomeCompleto, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (resposta == DialogResult.Yes)
+            {
+                System.Windows.Forms.Application.Exit();
             }
         }
     }
