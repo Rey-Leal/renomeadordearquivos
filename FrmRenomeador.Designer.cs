@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmRenomeador));
             btnDiretorio = new Button();
             txtDiretorio = new TextBox();
             lstArquivos = new ListBox();
@@ -122,7 +123,11 @@
             Controls.Add(lstArquivos);
             Controls.Add(txtDiretorio);
             Controls.Add(btnDiretorio);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
             Name = "FrmRenomeador";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Renomeador de Arquivos";
             Load += FrmRenomeador_Load;
             ResumeLayout(false);
