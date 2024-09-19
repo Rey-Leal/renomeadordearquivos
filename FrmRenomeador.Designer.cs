@@ -32,12 +32,11 @@
             txtDiretorio = new TextBox();
             lstArquivos = new ListBox();
             fbdDiretorio = new FolderBrowserDialog();
-            btnCarregar = new Button();
             lblDiretorio = new Label();
             lblArquivos = new Label();
             lblMascara = new Label();
             txtMascara = new TextBox();
-            btnAlterar = new Button();
+            btnRenomear = new Button();
             SuspendLayout();
             // 
             // btnDiretorio
@@ -65,16 +64,6 @@
             lstArquivos.Name = "lstArquivos";
             lstArquivos.Size = new Size(538, 169);
             lstArquivos.TabIndex = 2;
-            // 
-            // btnCarregar
-            // 
-            btnCarregar.Location = new Point(559, 62);
-            btnCarregar.Name = "btnCarregar";
-            btnCarregar.Size = new Size(78, 24);
-            btnCarregar.TabIndex = 3;
-            btnCarregar.Text = "Carregar";
-            btnCarregar.UseVisualStyleBackColor = true;
-            btnCarregar.Click += btnCarregar_Click;
             // 
             // lblDiretorio
             // 
@@ -110,26 +99,26 @@
             txtMascara.Size = new Size(538, 23);
             txtMascara.TabIndex = 6;
             // 
-            // btnAlterar
+            // btnRenomear
             // 
-            btnAlterar.Location = new Point(560, 250);
-            btnAlterar.Name = "btnAlterar";
-            btnAlterar.Size = new Size(78, 24);
-            btnAlterar.TabIndex = 8;
-            btnAlterar.Text = "Alterar";
-            btnAlterar.UseVisualStyleBackColor = true;
+            btnRenomear.Location = new Point(560, 250);
+            btnRenomear.Name = "btnRenomear";
+            btnRenomear.Size = new Size(78, 24);
+            btnRenomear.TabIndex = 8;
+            btnRenomear.Text = "Renomear";
+            btnRenomear.UseVisualStyleBackColor = true;
+            btnRenomear.Click += btnRenomear_Click;
             // 
             // FrmRenomeador
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(649, 289);
-            Controls.Add(btnAlterar);
+            Controls.Add(btnRenomear);
             Controls.Add(lblMascara);
             Controls.Add(txtMascara);
             Controls.Add(lblArquivos);
             Controls.Add(lblDiretorio);
-            Controls.Add(btnCarregar);
             Controls.Add(lstArquivos);
             Controls.Add(txtDiretorio);
             Controls.Add(btnDiretorio);
@@ -146,11 +135,10 @@
         private TextBox txtDiretorio;
         private ListBox lstArquivos;
         private FolderBrowserDialog fbdDiretorio;
-        private Button btnCarregar;
         private Label lblDiretorio;
         private Label lblArquivos;
         private Label lblMascara;
         private TextBox txtMascara;
-        private Button btnAlterar;
+        private Button btnRenomear;
     }
 }

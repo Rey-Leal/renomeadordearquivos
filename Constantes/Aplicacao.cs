@@ -9,6 +9,5 @@
         {
             get => String.Concat(_NomeDaAplicacao, " ", _VersaoDaAplicacao);
         }
-
     }
 }

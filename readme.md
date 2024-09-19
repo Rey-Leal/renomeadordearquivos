@@ -5,16 +5,19 @@
 Projeto Windows Forms que possibilita a renomeação de arquivos utilizando máscaras personalizadas para manter partes do nome antigo.
 
 **Exemplos de uso da aplicação:**<br/>
-**Entrada:** 0001Edital.PDF, Edital0002.PDF, Edital0003.PDF...<br/>
-**Máscara:** NovoTexto%num%.PDF (%num% preserva apenas a parte númerica da entrada)<br/>
-**Retorno:** NovoTexto0001.PDF, NovoTexto0002.PDF, NovoTexto0003.PDF
+**Entrada:** 0001TextoAnterior.PDF, 0002TextoAnterior.PDF ... 9999TextoAnterior.PDF...
+
+**Máscara:** [NovoTexto]%[Mascara.Numerica]%.PDF *(%[Mascara.Numerica]% preserva apenas a parte númerica da entrada)*
+
+**Retorno:** NovoTexto0001.PDF, NovoTexto0002.PDF ... NovoTexto9999.PDF
 
 ### Tecnologias Utilizadas:
 * .NET
 * Windows Forms
 
 ### Máscaras a serem desenvolvidas futuramente:
-* %text%
+* %[Mascara.Textual]%
+* Trabalho conjunto de várias máscaras
 
 ## Configuração e Execução
 Para executar este projeto localmente, siga os passos abaixo:

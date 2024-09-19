@@ -1,4 +1,6 @@
 using RenomeadorDeArquivos.Constantes;
+using RenomeadorDeArquivos.Enum;
+using System.Linq.Expressions;
 
 namespace RenomeadorDeArquivos
 {
@@ -6,36 +8,26 @@ namespace RenomeadorDeArquivos
     {
         public FrmRenomeador() => InitializeComponent();
 
-        private void LimparCampos()
-        {
-            lstArquivos.Items.Clear();
-            btnAlterar.Enabled = false;
-            txtMascara.Enabled = false;
-        }
-
-        private void AtivaMascara()
-        {
-            btnAlterar.Enabled = true;
-            txtMascara.Enabled = true;
-        }
-
         private void FrmRenomeador_Load(object sender, EventArgs e)
         {
             LimparCampos();
         }
 
-        private void btnDiretorio_Click(object sender, EventArgs e)
+        private void LimparCampos()
         {
-            if (fbdDiretorio.ShowDialog() == DialogResult.OK)
-            {
-                txtDiretorio.Text = fbdDiretorio.SelectedPath;
-            }
+            lstArquivos.Items.Clear();
+            btnRenomear.Enabled = false;
+            txtMascara.Enabled = false;
         }
 
-        private void btnCarregar_Click(object sender, EventArgs e)
+        private void AtivaMascara()
         {
-            string diretorio = txtDiretorio.Text;
+            btnRenomear.Enabled = true;
+            txtMascara.Enabled = true;
+        }
 
+        private void CarregarDados(string diretorio)
+        {
             LimparCampos();
 
             if (Directory.Exists(diretorio))
@@ -48,8 +40,8 @@ namespace RenomeadorDeArquivos
                 }
 
                 if (arquivos.Length > 0)
-                { 
-                   AtivaMascara();
+                {
+                    AtivaMascara();
                 }
                 else
                 {
@@ -59,6 +51,54 @@ namespace RenomeadorDeArquivos
             else
             {
                 MessageBox.Show("O diretório não existe!", Aplicacao.NomeCompleto);
+            }
+        }
+
+        private void RenomearArquivos(string diretorioCompleto, Mascara mascara)
+        {
+            string arquivoOrigem = AplicarMascara(Path.GetFileName(diretorioCompleto), mascara);
+            string diretorioOrigem = Path.GetDirectoryName(diretorioCompleto);
+            string diretorioPai = Directory.GetParent(diretorioOrigem).ToString();
+            string diretorioSaida = Path.Combine(diretorioPai, String.Concat(Path.GetFileName(diretorioOrigem), "_RENOMEADO"));
+            string arquivoSaida = Path.Combine(diretorioSaida, arquivoOrigem);
+
+            if (!Directory.Exists(diretorioSaida))
+                Directory.CreateDirectory(diretorioSaida);
+
+            File.Copy(diretorioCompleto, arquivoSaida, true);
+        }
+
+        private string AplicarMascara(string arquivo, Mascara mascara)
+        {
+            string result = "";
+            switch (mascara)
+            {
+                case Mascara.Numerico:
+                    string parteNumerica = new string(arquivo.Where(char.IsDigit).ToArray());
+                    result = String.Concat("Edital", parteNumerica, ".PDF");
+                    break;
+            }
+            return result;
+        }
+
+        private void btnDiretorio_Click(object sender, EventArgs e)
+        {
+            if (fbdDiretorio.ShowDialog() == DialogResult.OK)
+            {
+                txtDiretorio.Text = fbdDiretorio.SelectedPath;
+                CarregarDados(txtDiretorio.Text);
+            }
+            else
+            {
+                LimparCampos();
+            }
+        }
+
+        private void btnRenomear_Click(object sender, EventArgs e)
+        {
+            foreach (var item in lstArquivos.Items)
+            {
+                RenomearArquivos(item.ToString(), Mascara.Numerico);
             }
         }
     }
