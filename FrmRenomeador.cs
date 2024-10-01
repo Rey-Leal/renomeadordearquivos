@@ -1,6 +1,5 @@
 using RenomeadorDeArquivos.Constantes;
 using RenomeadorDeArquivos.Enums;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace RenomeadorDeArquivos
 {
@@ -9,9 +8,9 @@ namespace RenomeadorDeArquivos
         public FrmRenomeador() => InitializeComponent();
 
         private void FrmRenomeador_Load(object sender, EventArgs e)
-        {
+        {            
             LimparCampos();
-            CarregarMascaras();
+            CarregarMascaras();            
         }
 
         private void LimparCampos()
@@ -36,7 +35,7 @@ namespace RenomeadorDeArquivos
         }
 
         private void CarregarDados(string diretorio)
-        {
+        {            
             LimparCampos();
 
             if (Directory.Exists(diretorio))
